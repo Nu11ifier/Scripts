@@ -1,7 +1,8 @@
 # Scripts
 Save some time scripts.
 
-_htbdirmaker.py_
+__htbdirmaker.py__
+
 Script creates a directory with sub directories such as nmap, scripts and notes.
 Script is used to organize directories for each room or challenge in HackTheBox, TryHackMe etc.
 Usage: htbdirmaker.py -[Option]
