@@ -1,9 +1,22 @@
-#!/usr/bin/env
+#!/usr/bin/python3
 
 import os
 import sys
+import subprocess
+
 
 def main():
+    try:
+        if not os.path.exists("/usr/local/bin/htbdirmaker.py"):
+            path = os.getcwd()
+            print(path)
+            subprocess.run(
+                "sudo ln -s "+path+"/htbdirmaker.py /usr/local/bin/htbdirmaker.py", shell=True)
+            subprocess.run("sudo chmod +x /usr/local/bin/htbdirmaker.py", shell=True)
+            print("Link Created - Use Command Anywhere.")
+    except:
+        print("Could Not Create Link.")
+        exit()
     try:
         option = sys.argv[1]
     except:
@@ -15,6 +28,7 @@ def main():
         _h()
     elif option == "-d":
         _d()
+
 
 def _h():
     print("Usage: htbdirmaker.py -[Option]")
@@ -56,5 +70,6 @@ def _d():
     except:
         print("Error: Failed to build sub directories!")
         exit()
+
 
 main()
