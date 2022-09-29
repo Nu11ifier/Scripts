@@ -11,7 +11,7 @@ def main():
             path = os.getcwd()
             print(path)
             subprocess.run(
-                "sudo ln -s "+path+"/htbdirmaker.py /usr/local/bin/htbdirmaker.py", shell=True)
+                "sudo ln -s "+path+"/htbdirmaker.py /usr/local/bin/htbdirmaker.py", shell=True) #change 'shell=True' later because of shell injection.
             subprocess.run("sudo chmod +x /usr/local/bin/htbdirmaker.py", shell=True)
             print("Link Created - Use Command Anywhere.")
     except:
