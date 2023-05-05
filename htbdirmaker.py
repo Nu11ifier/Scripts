@@ -1,69 +1,40 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import os
 import sys
-import subprocess
+import argparse
 
 
 def main():
-    try:
-        option = sys.argv[1]
-    except:
-        print("Error: Wrong format")
-        print("Usage: htbdirmaker.py -[Option]")
+    """
+    Entry point of the program. Parses command line arguments and creates the directory structure.
+    """
+    parser = argparse.ArgumentParser(description='Tool for creating a directory structure for Hack The Box machines')
+
+    # Add an argument for specifying the parent directory name.
+    parser.add_argument('-d', dest='parent_dir', required=True, help='specify parent directory name')
+    args = parser.parse_args()
+
+    parent_dir = args.parent_dir
+
+    # Check if the parent directory already exists.
+    if os.path.exists(parent_dir):
+        print("Specified directory already exists!")
         sys.exit()
 
-    if option == "-h":
-        _h()
-    elif option == "-d":
-        _d()
-
-
-def _h():
-    print("Usage: htbdirmaker.py -[Option]")
-    print("Options:")
-    print("-h : Display this help message")
-    print("-d : Specify directory")
-    print("More to come...")
+    # Create the parent directory.
+    os.mkdir(parent_dir, mode=0o700)
+    print("Directory '%s' is built!" % parent_dir)
     print()
 
-
-def _d():
-    try:
-        parent_dir = sys.argv[2]
-        path = os.getcwd()
-        if not os.path.exists(path + "/" + parent_dir):
-            os.mkdir(parent_dir, mode=0o700)
-            print("Directory '% s' is built!" % parent_dir)
-            print()
-        else:
-            print("Specified Directory Already Exists!")
-            return
-    except:
-        print("Error: Specify a valid directory path!")
-        print()
-        print("Usage: htbdirmaker.py -d [directory name]")
-        sys.exit()
-
-    try:
-        sub_dir_nmap = os.path.join(parent_dir, "nmap")
-        sub_dir_scripts = os.path.join(parent_dir, "scripts")
-        sub_dir_notes = os.path.join(parent_dir, "notes")
-
-        os.mkdir(sub_dir_nmap, mode=0o700)
-        print("Directory '% s' is built!" % sub_dir_nmap)
+    # Create subdirectories under the parent directory.
+    sub_dir_names = ["nmap", "scripts", "notes"]
+    for sub_dir_name in sub_dir_names:
+        sub_dir = os.path.join(parent_dir, sub_dir_name)
+        os.mkdir(sub_dir, mode=0o700)
+        print("Directory '%s' is built!" % sub_dir)
         print()
 
-        os.mkdir(sub_dir_scripts, mode=0o700)
-        print("Directory '% s' is built!" % sub_dir_scripts)
-        print()
 
-        os.mkdir(sub_dir_notes, mode=0o700)
-        print("Directory '% s' is built!" % sub_dir_notes)
-        print()
-    except:
-        print("Error: Failed to build sub directories!")
-        sys.exit()
-
-
-main()
+if __name__ == '__main__':
+    main()
